@@ -1,0 +1,69 @@
+<div class="container text-center align-self-center h-100 align-items-center justify-content-center d-flex">
+  <div [hidden]="submitted">
+  <form novalidate class="form-signin" #f="ngForm" (ngSubmit)="onSubmit()">
+    <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <div class="form-group">
+      <label for="inputFirstName" class="sr-only">First name</label>
+      <input type="text" id="inputFirstName"
+             placeholder="First name"
+             class="form-control"
+             name="first_name"
+             [(ngModel)]="user.first_name"
+             #first_name="ngModel"
+             minlength="3"
+             required>
+        <small class="text-danger float-left" [hidden]="first_name.valid || (first_name.pristine && !f.submitted)">
+          First name is required and must be minimum 3 characters long.
+        </small>
+    </div>
+    <div class="form-group">
+      <label for="inputLastName" class="sr-only">Last name</label>
+      <input type="text" id="inputLastName"
+             placeholder="Last name"
+             class="form-control"
+             name="last_name"
+             [(ngModel)]="user.last_name"
+             #last_name="ngModel"
+             minlength="3"
+             required>
+      <small class="text-danger float-left" [hidden]="last_name.valid || (last_name.pristine && !f.submitted)">
+        Last name is required and must be minimum 3 characters long.
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="text" id="inputEmail"
+             placeholder="Email address"
+             class="form-control"
+             name="email"
+             [(ngModel)]="user.email"
+             #email="ngModel"
+             pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@student.uj.edu.pl|@uj.edu.pl)$"
+             required>
+      <small class="text-danger float-left" [hidden]="email.valid || (email.pristine && !f.submitted)">
+        Email address is required and must end with <mark>@student.uj.edu.pl</mark> or <mark>@uj.edu.pl</mark>.
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword"
+             placeholder="Password"
+             class="form-control"
+             name="password"
+             [(ngModel)]="user.password"
+             #password="ngModel"
+             [minlength]="8"
+             [maxlength]="32"
+             required>
+      <small class="text-danger float-left" [hidden]="password.valid || (password.pristine && !f.submitted)">
+        Password is required and must contain between 8 and 32 characters.
+      </small>
+    </div>
+
+    <button [disabled]="!f.form.valid" class="mt-2 btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    <h6 class="h6 font-weight-normal mt-3">Already have an account? <a routerLink="/login">Sign in</a></h6>
+    <p class="mt-5 mb-3 text-muted">&copy; 2018</p>
+  </form>
+  </div>
+  <app-simple-loader [hidden]="!submitted"></app-simple-loader>
+</div>

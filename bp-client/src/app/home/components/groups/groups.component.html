@@ -1,0 +1,48 @@
+<div class="container-fluid p-0 m-0" *ngIf="user.isTeacher === true">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav m-auto">
+        <li class="nav-item">
+          <a routerLink="add" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-plus"></i> Add
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="user-groups" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-users"></i> My groups
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="all-groups" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-users"></i> All groups
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="container-fluid p-0 m-0" *ngIf="user.isTeacher === false">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+      <ul class="navbar-nav m-auto">
+        <li class="nav-item">
+          <a routerLink="user-groups" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-users"></i> My groups
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="all-groups" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+            <i class="fa fa-users"></i> All groups
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<router-outlet></router-outlet>

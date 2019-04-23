@@ -1,0 +1,8 @@
+<div *ngIf="message" style="z-index: 100000;"
+     [ngClass]="{ 'alert': message, 'alert-success': message.type === 'success', 'alert-danger': message.type === 'error' }"
+     class="position-absolute alert alert-warning alert-dismissible" role="alert">
+  {{message.text}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="dispose()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

@@ -1,0 +1,67 @@
+<app-simple-loader *ngIf="isLoading"></app-simple-loader>
+<div class="container pt-2" *ngIf="user.isTeacher === true">
+  <div class="card mb-3">
+    <h4 class="card-header">Current groups ({{groups.length}})</h4>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Created at</th>
+          <th scope="col">Description</th>
+          <th scope="col">Owner name</th>
+          <th scope="col">Owner email</th>
+        </tr>
+        </thead>
+        <tbody *ngIf="groups.length === 0">
+        <tr>
+          <td colspan="4">There are no groups in the DB.</td>
+        </tr>
+        </tbody>
+        <tbody>
+        <tr *ngFor="let g of groups;">
+          <td>{{g.title}}</td>
+          <td>{{g.date_created | date: 'dd/MM/yyyy'}}</td>
+          <td>{{g.description}}</td>
+          <td>{{g.owner_name}}</td>
+          <td>{{g.owner_email}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="container pt-2" *ngIf="user.isTeacher === false">
+  <div class="card mb-3">
+    <h4 class="card-header">Current groups ({{groups.length}})</h4>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Owner name</th>
+          <th scope="col">Owner email</th>
+          <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody *ngIf="groups.length === 0">
+        <tr>
+          <td colspan="4">There are no groups in the DB.</td>
+        </tr>
+        </tbody>
+        <tbody>
+        <tr *ngFor="let g of groups;">
+          <td>{{g.title}}</td>
+          <td>{{g.description}}</td>
+          <td>{{g.owner_name}}</td>
+          <td>{{g.owner_email}}</td>
+          <td>
+            <button class="btn btn-sm btn-success" (click)="joinGroup(this.g._id)"><i class="fa fa-user-plus"></i> Join</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,152 @@
+<app-simple-loader *ngIf="isLoading"></app-simple-loader>
+<div class="container pt-2" *ngIf="!isLoading">
+  <div class="accordion" id="accordion">
+            <div class="card-body">
+              <form *ngIf="user.isTeacher === true" novalidate class="form-signin" #f="ngForm" (ngSubmit)="updateAbout()">
+                <div class="form-group">
+                  <label for="inputGroupTitle" class="sr-only">Group title</label>
+                  <input type="text" id="inputGroupTitle"
+                         placeholder="Group title"
+                         class="form-control"
+                         name="title"
+                         [(ngModel)]="group.title"
+                         #title="ngModel"
+                         required>
+                  <small class="text-danger float-left" [hidden]="title.valid || (title.pristine && !f.submitted)">
+                    Title is required.
+                  </small>
+                </div>
+                <div class="form-group">
+                  <label for="inputGroupDesc" class="sr-only">Group description</label>
+                  <input type="text" id="inputGroupDesc"
+                         placeholder="Group description"
+                         class="form-control"
+                         name="description"
+                         [(ngModel)]="group.description"
+                         #description="ngModel"
+                         >
+                </div>
+                <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    <button [disabled]="!f.form.valid" class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Update</button>
+                  </div>
+                </div>
+              </form>
+              <div class="list-group" *ngIf="user.isTeacher === false">
+                <div class="list-group-item flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{group.title}}</h5>
+                    <small class="text-muted">{{group.date_created | date: 'yyyy'}}</small>
+                  </div>
+                  <small class="text-muted">{{group.owner_email}}</small>
+                  <p class="mb-1">{{group.description}}</p>
+                </div>
+              </div>
+            </div>
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Tasks
+          </button>
+        </h5>
+      </div>
+      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+        <div *ngIf="user.isTeacher === true" class="card-body mb-3">
+          <div class="card">
+            <h6 class="card-header">Add new task</h6>
+            <div class="card-body">
+              <form class="form" novalidate #f="ngForm" (ngSubmit)="addTask()">
+                <div class="form-group">
+                  <label for="inputTitle" class="sr-only">Title</label>
+                  <input type="text" id="inputTitle"
+                         placeholder="Title"
+                         class="form-control"
+                         name="title"
+                         [(ngModel)]="task.title"
+                         #title="ngModel"
+                         required>
+                </div>
+                <div class="form-group">
+                  <label for="inputDescription" class="sr-only">Description</label>
+                  <input type="text" id="inputDescription"
+                         placeholder="Description"
+                         class="form-control"
+                         name="description"
+                         [(ngModel)]="task.description"
+                         #description="ngModel">
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-primary mt-2" type="submit" [disabled]="!f.valid"><i class="fa fa-floppy-o"></i> Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+          <div class="card-body">
+            <table class="table table-bordered">
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th *ngIf="user.isTeacher === true" scope="col">Actions</th>
+              </tr>
+              </thead>
+              <tbody *ngIf="group.tasks.length === 0">
+              <tr>
+                <td colspan="4">This group does not contain any tasks.</td>
+              </tr>
+              </tbody>
+              <tbody>
+              <tr *ngFor="let t of group.tasks;">
+                <td>
+                  <a routerLink="task/{{t._id}}" class="nav-link" routerLinkActive="true">{{t.title}}</a>
+                </td>
+                <td>{{t.description}}</td>
+                <td *ngIf="user.isTeacher === true">
+                  <button class="btn btn-sm btn-danger" (click)="deleteTask(t._id)"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            Members
+          </button>
+        </h5>
+      </div>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+          <div class="card-body">
+            <table class="table table-bordered">
+              <thead class="thead-light">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col" *ngIf="user.isTeacher === true">Actions</th>
+              </tr>
+              </thead>
+              <tbody *ngIf="group.members.length === 0">
+              <tr>
+                <td colspan="4">This group does not contain any members.</td>
+              </tr>
+              </tbody>
+              <tbody>
+              <tr *ngFor="let m of group.members;">
+                <td>{{m.name}}</td>
+                <td>{{m.email}}</td>
+                <td *ngIf="user.isTeacher === true">
+                  <button class="btn btn-sm btn-danger" (click)="deleteMember(m._id)"><i class="fa fa-trash"></i> Remove</button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

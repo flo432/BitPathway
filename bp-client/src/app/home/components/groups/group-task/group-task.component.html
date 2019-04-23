@@ -1,0 +1,165 @@
+<app-simple-loader *ngIf="isLoading"></app-simple-loader>
+<div class="container pt-2" *ngIf="!isLoading">
+  <div class="card-body">
+    <form *ngIf="user.isTeacher === true" novalidate class="form-signin" #f="ngForm" (ngSubmit)="updateTask()">
+      <div class="form-group">
+        <label for="inputGroupTitle" class="sr-only">Task title</label>
+        <input type="text" id="inputGroupTitle"
+               placeholder="Task title"
+               class="form-control"
+               name="title"
+               [(ngModel)]="task.title"
+               #title="ngModel"
+               required>
+        <small class="text-danger float-left" [hidden]="title.valid || (title.pristine && !f.submitted)">
+          Title is required.
+        </small>
+      </div>
+      <div class="form-group">
+        <label for="inputGroupDesc" class="sr-only">Task description</label>
+        <input type="text" id="inputGroupDesc"
+               placeholder="Task description"
+               class="form-control"
+               name="description"
+               [(ngModel)]="task.description"
+               #description="ngModel">
+      </div>
+      <div class="row">
+        <div class="col d-flex justify-content-center">
+          <button [disabled]="!f.form.valid" class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Update</button>
+        </div>
+      </div>
+    </form>
+    <div class="list-group" *ngIf="user.isTeacher === false">
+      <div class="list-group-item flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{task.title}}</h5>
+        </div>
+        <p class="mb-1">{{task.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mb-3" *ngIf="user.isTeacher === false && isAuthor === false">
+    <div class="card">
+      <h6 class="card-header">Add new project</h6>
+      <div class="card-body">
+        <form class="form" novalidate #f="ngForm" (ngSubmit)="addProject()">
+          <div class="form-group">
+            <label for="inputTitle" class="sr-only">Title</label>
+            <input type="text" id="inputTitle"
+                   placeholder="Title"
+                   class="form-control"
+                   name="title"
+                   [(ngModel)]="project.title"
+                   #title="ngModel"
+                   required>
+          </div>
+          <div class="form-group">
+            <label for="inputDescription" class="sr-only">Description</label>
+            <input type="text" id="inputDescription"
+                  placeholder="Description"
+                  class="form-control"
+                  name="description"
+                  [(ngModel)]="project.description"
+                  #description="ngModel">
+          </div>
+          <table class="table table-bordered">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Group members</th>
+              <th scope="col">Other project authors</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                <table>
+                  <tbody>
+                  <tr *ngFor="let m of members">
+                    <td>{{m.name}}</td>
+                    <td *ngIf="project.authors.length < 2">
+                      <button class="btn btn-sm btn-success" (click)="addMemberToProject(m._id)"><i class="fa fa-user-plus"></i> Add</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td>
+                <table>
+                  <tbody>
+                  <tr *ngFor="let p of project.authors">
+                    <td>{{p.name}}</td>
+                    <td *ngIf="p._id !== currentUser._id" >
+                      <button class="btn btn-sm btn-danger" (click)="removeMemberFromProject(p._id)"><i class="fa fa-remove"></i> Remove</button>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="col-4">
+            <button class="btn btn-primary mt-2" type="submit" [disabled]="!f.valid"><i class="fa fa-floppy-o"></i> Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="user.isTeacher === false" class="card-body">
+    <div *ngFor="let tp of task.user_projects;">
+      <div *ngFor="let pa of tp.authors">
+        <table class="table table-bordered" *ngIf="isAuthor === true && pa._id === currentUser._id">
+          <thead class="thead-light">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Authors</th>
+          </tr>
+          </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a routerLink="/../../project/{{tp._id}}" class="nav-link" routerLinkActive="true">{{tp.title}}</a>
+            </td>
+            <td>
+              <ul>
+                <li *ngFor="let a of tp.authors">{{ a.email }}</li>
+              </ul>
+            </td>
+            <!--<td *ngIf="user.isTeacher === true">-->
+            <!--<button class="btn btn-sm btn-danger" (click)="deleteTask(t._id)"><i class="fa fa-trash"></i> Delete</button>-->
+            <!--</td>-->
+          </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="user.isTeacher === true" class="card-body">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Authors</th>
+      </tr>
+      </thead>
+      <tbody *ngIf="task.user_projects.length === 0">
+      <tr>
+        <td colspan="4">Empty</td>
+      </tr>
+      </tbody>
+      <tbody>
+      <tr *ngFor="let p of task.user_projects;">
+        <td>
+          <a routerLink="/../../project/{{p._id}}" class="nav-link" routerLinkActive="true">{{p.title}}</a>
+        </td>
+        <td>
+          <ul>
+            <li *ngFor="let a of p.authors">{{ a.email }}</li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

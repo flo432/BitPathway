@@ -1,0 +1,37 @@
+<div class="container-fluid p-0 m-0">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a routerLink="/" class="nav-link" routerLinkActive="true">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="groups" class="nav-link" routerLinkActive="true">
+            <i class="fa fa-users"></i> Groups
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav" style="right: 0">
+        <li class="nav-item">
+          <a routerLink="user/profile" class="nav-link" routerLinkActive="active">
+            <i class="fa fa-user"></i> {{currentUser.email}}
+          </a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-dark ml-1" aria-label="logout" title="logout" type="button" (click)="logout()">
+            <i class="fa fa-sign-out"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <router-outlet></router-outlet>
+
+</div>
